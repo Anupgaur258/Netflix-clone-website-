@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Netflix</title>
+    <link rel="stylesheet" href="style.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.1.0/js/all.js" integrity="sha384-3LK/3kTpDE/Pkp8gTNp2gR/2gOiwQ6QaO7Td0zV76UFJVhqLl4Vl3KL1We6q6wR9" crossorigin="anonymous"></script>
+    <style>
+        /* Add your additional styles here */
+    </style>
+    <script>
+        const apiKey = '5e868149'; // Your OMDB API key
+        const apiUrl = 'http://www.omdbapi.com/';
+
+        // Function to fetch movie data by title from OMDB API
+        function fetchMovieByTitle(title) {
+            const url = `${apiUrl}?apikey=${apiKey}&t=${encodeURIComponent(title)}`;
+
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Process the JSON data and display movie details on the webpage
+                    displayMovieDetails(data);
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                });
+        }
+
+        // Function to display movie details on the webpage
+        function displayMovieDetails(movie) {
+            const posterContainer = document.getElementById('poster-container');
+            const plot = document.getElementById('plot');
+
+            // Clear existing content
+            posterContainer.innerHTML = '';
+            plot.textContent = '';
+
+            // Create elements to display movie details
+            const posterImg = document.createElement('img');
+            posterImg.src = movie.Poster;
+            posterImg.alt = movie.Title + ' poster';
+
+            // Append poster to the poster container
+            posterContainer.appendChild(posterImg);
+
+            // Display plot
+            plot.textContent = movie.Plot;
+        }
+
+        // Event listener for form submission
+        document.getElementById('movie-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent default form submission behavior
+
+            // Get the movie title from the input field
+            const movieTitle = document.getElementById('movie-title').value;
+
+            // Fetch movie data by title
+            fetchMovieByTitle(movieTitle);
+        });
+    </script>
+</head>
+<body>
+    <div class="wrapper">
+
+        <!-- HEADER -->
+        <header>
+            <div class="netflixLogo">
+                <a id="logo" href="#home">
+                    <img src="https://github.com/carlosavilae/Netflix-Clone/blob/master/img/logo.PNG?raw=true" alt="Logo Image">
+                </a>
+            </div>
+            <nav class="main-nav">
+                <a href="#home">Home</a>
+                <a href="#tvShows">TV Shows</a>
+                <a href="#movies">Movies</a>
+                <a href="#originals">Originals</a>
+                <a href="#">Recently Added</a>
+                <a target="_blank" href="https://codepen.io/cb2307/full/NzaOrm">Portfolio</a>
+            </nav>
+            <nav class="sub-nav">
+                <a href="#"><i class="fas fa-search sub-nav-logo"></i></a>
+                <a href="#"><i class="fas fa-bell sub-nav-logo"></i></a>
+                <a href="#">Account</a>
+            </nav>
+        </header>
+        <!-- END OF HEADER -->
+
+        <!-- FORM TO ENTER MOVIE TITLE -->
+        <form id="movie-form" class="email-form">
+            <p>Enter a movie title to get details:</p>
+            <div class="get-started">
+                <input type="text" id="movie-title" placeholder="Movie title">
+                <button type="submit">Search</button>
+            </div>
+        </form>
+
+        <!-- CONTAINER TO DISPLAY MOVIE DETAILS -->
+        <div id="movie-container" class="inner-container">
+            <h2>Movie Details</h2>
+            <div id="poster-container">
+                <!-- Movie poster will be displayed here -->
+            </div>
+            <p id="plot"></p>
+        </div>
+
+        <div class="overlay"></div>
+
+        <!-- MAIN CONTAINER -->
+        <section class="main-container">
+            <!-- Your existing content goes here -->
+        </section>
+        <!-- END OF MAIN CONTAINER -->
+
+        <!-- LINKS -->
+        <section class="link">
+            <!-- Your existing links go here -->
+        </section>
+        <!-- END OF LINKS -->
+
+        <!-- FOOTER -->
+        <footer>
+            <p>Designed by Anup Kumar</p>
+            <p></p>
+        </footer>
+    </div>
+</body>
+</html>
